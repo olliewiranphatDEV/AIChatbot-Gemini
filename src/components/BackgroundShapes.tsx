@@ -60,14 +60,14 @@ const SHAPES: ReadonlyArray<{ fill: string; points: readonly Point[] }> = [
     fill: 'url(#bg-shade-f)',
     points: [
       [440, 780], [500, 850], [513, 870], [534, 900], [561, 950], [577, 1000],
-      [582, 1040], [300, 1100], [-60, 1100], [-60, 700], [150, 640], [330, 660],
+      [582, 1040], [592, 1100], [640, 1300], [760, 1700], [900, 2400], [-60, 2400], [-60, 700], [150, 640], [330, 660],
     ],
   },
   {
     fill: 'url(#bg-shade-e)',
     points: [
       [330, 740], [410, 840], [410, 862], [408, 870], [396, 900], [363, 950],
-      [307, 1000], [273, 1020], [255, 1040], [100, 1100], [-60, 1100],
+      [307, 1000], [273, 1020], [255, 1040], [215, 1100], [150, 1250], [40, 1500], [-60, 1800],
       [-60, 700], [100, 640], [250, 640],
     ],
   },
@@ -76,7 +76,7 @@ const SHAPES: ReadonlyArray<{ fill: string; points: readonly Point[] }> = [
     points: [
       [0, 757], [10, 750], [20, 740], [42, 720], [72, 700], [120, 680],
       [170, 672], [260, 720], [310, 820], [308, 870], [302, 900], [283, 950],
-      [255, 1000], [242, 1030], [100, 1100], [-60, 1100], [-60, 800],
+      [255, 1000], [242, 1030], [236, 1100], [215, 1250], [140, 1500], [-60, 1800], [-60, 800],
     ],
   },
 ]
@@ -86,7 +86,7 @@ const PATHS = SHAPES.map((shape) => ({ fill: shape.fill, d: smoothClosedPath(sha
 export default function BackgroundShapes() {
   return (
     <svg
-      className="pointer-events-none absolute inset-0 -z-10 size-full"
+      className="pointer-events-none absolute inset-0 -z-10 size-full lg:right-auto lg:bottom-auto lg:h-[64rem] lg:w-[54rem] lg:overflow-visible"
       viewBox="0 0 864 1024"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
@@ -116,7 +116,7 @@ export default function BackgroundShapes() {
           <stop offset="1" stopColor="#f0f4f1" />
         </linearGradient>
       </defs>
-      <rect x="-1000" y="-1000" width="3000" height="3000" fill="#ebf3ee" />
+      <rect x="-1000" y="-1000" width="3000" height="8000" fill="#ebf3ee" />
       {PATHS.map(({ fill, d }) => (
         <path key={d} d={d} fill={fill} filter="url(#bg-soft)" style={{ mixBlendMode: 'multiply' }} />
       ))}

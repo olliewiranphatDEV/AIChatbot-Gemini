@@ -30,9 +30,9 @@ export default function GoogleSignInButton({ onClick }: GoogleSignInButtonProps)
     <button
       type="button"
       onClick={onClick}
-      className="flex h-[4.3125rem] w-full max-w-[28.375rem] cursor-pointer items-center justify-center gap-[1.375rem] rounded-[0.875rem] border border-[#dbe2e1] bg-white text-[1.375rem] font-medium text-[#05080d] shadow-[0_1px_2px_rgba(20,50,40,0.04)] transition-colors hover:bg-[#fafcfb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      className="flex h-[3.5rem] w-full max-w-[28.375rem] cursor-pointer items-center justify-center gap-[0.75rem] rounded-[0.875rem] border border-[#dbe2e1] bg-white text-[clamp(1.0625rem,4.4vw,1.39rem)] font-medium text-[#05080d] shadow-[0_1px_2px_rgba(20,50,40,0.04)] transition-colors hover:bg-[#fafcfb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:h-[4.3125rem] sm:gap-[1.375rem] lg:text-[1.39rem]"
     >
-      <GoogleLogo className="size-[2.25rem]" />
+      <GoogleLogo className="size-[1.75rem] sm:size-[2.25rem]" />
       <span>Continue with Google</span>
     </button>
   )

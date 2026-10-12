@@ -13,29 +13,29 @@ function PersonIcon({ className }: { className?: string }) {
 export default function ConversationPreview() {
   return (
     <div
-      className="w-full max-w-[37.875rem] rounded-[1.75rem] bg-[#fafbf9] px-[1.75rem] pt-[2.125rem] pb-[2.5rem] shadow-[0.5rem_0.875rem_2.25rem_rgba(30,70,50,0.1)] lg:h-[21.5rem]"
+      className="w-full max-w-[37.875rem] rounded-[1.25rem] bg-[#fafbf9] px-[1rem] pt-[1.25rem] pb-[1.5rem] shadow-[0.5rem_0.875rem_2.25rem_rgba(30,70,50,0.1)] lg:h-[21.5rem] lg:rounded-[1.75rem] lg:px-[1.75rem] lg:pt-[2.125rem] lg:pb-[2.5rem]"
       aria-hidden="true"
     >
-      <div className="flex items-start justify-end gap-[0.9375rem]">
-        <p className="flex h-16 items-center rounded-2xl bg-[#e9f0ec] px-[1.375rem] text-[1.1375rem] text-[#06090d]">
+      <div className="flex items-start justify-end gap-[0.625rem] lg:gap-[0.9375rem]">
+        <p className="flex min-h-[2.75rem] items-center rounded-[0.875rem] bg-[#e9f0ec] px-[1rem] py-[0.5rem] text-[clamp(0.9375rem,3.8vw,1.2125rem)] text-[#06090d] lg:h-16 lg:rounded-2xl lg:px-[1.375rem] lg:py-0 lg:text-[1.2125rem]">
           Help me turn an idea into a plan.
         </p>
-        <span className="mt-[0.4375rem] flex size-[2.625rem] shrink-0 items-center justify-center rounded-full bg-[#ecf2ee]">
-          <PersonIcon className="size-[1.5rem]" />
+        <span className="flex size-[2.25rem] shrink-0 items-center justify-center rounded-full bg-[#ecf2ee] lg:mt-[0.4375rem] lg:size-[2.625rem]">
+          <PersonIcon className="size-[1.25rem] lg:size-[1.5rem]" />
         </span>
       </div>
 
-      <div className="mt-[1.375rem] flex items-start gap-[1.375rem]">
-        <BrandLogo className="size-[2.875rem] shrink-0" />
-        <div className="min-w-0 max-w-[23.625rem] min-h-[11.5625rem] flex-1 rounded-2xl bg-[#f3f4f3] px-[1.375rem] pt-[1rem] pb-[1.5rem]">
-          <h3 className="text-[1.18rem] leading-7 font-semibold text-[#06090d]">
+      <div className="mt-[0.75rem] flex items-start gap-[0.625rem] lg:mt-[1.375rem] lg:gap-[1.375rem]">
+        <BrandLogo className="size-[2.25rem] shrink-0 lg:size-[2.875rem]" />
+        <div className="min-w-0 max-w-[23.625rem] flex-1 rounded-[0.875rem] bg-[#f3f4f3] px-[1rem] pt-[0.875rem] pb-[1rem] lg:min-h-[11.5625rem] lg:rounded-2xl lg:px-[1.375rem] lg:pt-[1rem] lg:pb-[1.5rem]">
+          <h3 className="text-[clamp(0.9375rem,3.8vw,1.2125rem)] leading-6 font-semibold text-[#06090d] lg:text-[1.2125rem] lg:leading-7">
             Let’s start with your goal.
           </h3>
-          <p className="mt-[0.5625rem] text-[1.1rem] leading-[1.6875rem] text-[#374047]">
+          <p className="mt-[0.375rem] text-[clamp(0.8125rem,3.5vw,1.18rem)] leading-[1.5] text-[#374047] lg:mt-[0.5625rem] lg:text-[1.18rem] lg:leading-[1.6875rem]">
             What do you want to achieve? A clear goal will help us break your idea into simple,
             actionable steps.
           </p>
-          <div className="mt-[1.34rem] flex gap-[0.4375rem]">
+          <div className="mt-[0.75rem] flex gap-[0.4375rem] lg:mt-[1.34rem]">
             <span className="size-[0.4375rem] rounded-full bg-[#a8aeb0]" />
             <span className="size-[0.4375rem] rounded-full bg-[#a8aeb0]" />
             <span className="size-[0.4375rem] rounded-full bg-[#a8aeb0]" />

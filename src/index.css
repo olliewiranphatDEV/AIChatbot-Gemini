@@ -7,13 +7,15 @@
 }
 
 /*
- * The desktop design is authored at 1536px wide (1rem = 16px there).
- * From the lg breakpoint up, rem scales with the viewport width so the
- * layout keeps the reference proportions at any desktop size.
+ * The desktop design is authored at 1536 x 1024 (1rem = 16px there).
+ * From the lg breakpoint up, rem scales with whichever viewport side is
+ * the limiting one, so the whole layout keeps the reference proportions:
+ * on wide-but-short screens (monitors) it shrinks to fit the height instead
+ * of pushing content below the fold. The 10px floor stops it getting tiny.
  */
 @media (min-width: 1024px) {
   html {
-    font-size: calc(100vw / 96);
+    font-size: max(10px, min(calc(100vw / 96), calc(100vh / 64)));
   }
 }
 
