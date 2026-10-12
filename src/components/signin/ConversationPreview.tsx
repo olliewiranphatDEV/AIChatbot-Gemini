@@ -1,4 +1,4 @@
-import BrandLogo from './BrandLogo.tsx'
+import BrandLogo from '../shared/BrandLogo.tsx'
 
 function PersonIcon({ className }: { className?: string }) {
   return (

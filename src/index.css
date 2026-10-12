@@ -1,31 +1,69 @@
 @import "tailwindcss";
 @import "@fontsource-variable/google-sans";
 
+/*
+ * "Desktop" layout for the chat page: wide enough AND landscape. A tall tablet
+ * such as an iPad Pro 13 in portrait (1032 x 1376) is wide but behaves like a
+ * phone here: the sidebar is a drawer and the conversation uses the full width.
+ */
+@custom-variant desk (@media (min-width: 1024px) and (orientation: landscape));
+
 @theme {
   --font-sans: "Google Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --color-brand: #1a6a5b;
 }
 
 /*
- * The desktop design is authored at 1536 x 1024 (1rem = 16px there).
- * From the lg breakpoint up, rem scales with whichever viewport side is
- * the limiting one, so the whole layout keeps the reference proportions:
- * on wide-but-short screens (monitors) it shrinks to fit the height instead
- * of pushing content below the fold. The 10px floor stops it getting tiny.
+ * Pages that opt in with the .fluid-rem class (the sign-in page) are authored
+ * at 1536 x 1024 (1rem = 16px there). From the lg breakpoint up, rem scales
+ * with whichever viewport side is the limiting one, so the whole layout keeps
+ * the reference proportions: on wide-but-short screens (monitors) it shrinks
+ * to fit the height instead of pushing content below the fold. The 10px floor
+ * stops it getting tiny. Other pages (chat) keep a normal 16px rem.
  */
 @media (min-width: 1024px) {
-  html {
+  html:has(.fluid-rem) {
     font-size: max(10px, min(calc(100vw / 96), calc(100vh / 64)));
   }
 }
 
+/*
+ * The chat page uses the same idea from the same point where its sidebar
+ * becomes permanent (the desk variant), but it never grows past the
+ * 1536 x 1024 reference size (16px): bigger screens get more room around a
+ * width-limited conversation instead of bigger UI. The 12px floor keeps
+ * messages readable on small laptops.
+ */
+@media (min-width: 1024px) and (orientation: landscape) {
+  html:has(.chat-root) {
+    font-size: clamp(12px, min(calc(100vw / 96), calc(100vh / 64)), 16px);
+  }
+}
+
+/* Numbered list whose markers are laid out as a flex column (see ChatMessage). */
+.ol-counter {
+  counter-reset: item-number;
+}
+.ol-counter > li {
+  counter-increment: item-number;
+}
+.ol-counter > li::before {
+  content: counter(item-number) ".";
+}
+
+/*
+ * Pin the base size. Every size in the app is a rem multiple, so a browser
+ * "font size" setting or an unusual default would otherwise rescale a page
+ * differently from the others (and widen anything with a rem min-width).
+ */
 html {
+  font-size: 16px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  min-width: 20rem;
+  min-width: 320px;
   background: #fff;
   font-family: var(--font-sans);
   font-optical-sizing: auto;

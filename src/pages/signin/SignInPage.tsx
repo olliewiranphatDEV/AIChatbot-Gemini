@@ -1,7 +1,7 @@
-import BackgroundShapes from '../components/BackgroundShapes.tsx'
-import BrandLogo from '../components/BrandLogo.tsx'
-import ConversationPreview from '../components/ConversationPreview.tsx'
-import GoogleSignInButton from '../components/GoogleSignInButton.tsx'
+import BackgroundShapes from '../../components/signin/BackgroundShapes.tsx'
+import BrandLogo from '../../components/shared/BrandLogo.tsx'
+import ConversationPreview from '../../components/signin/ConversationPreview.tsx'
+import GoogleSignInButton from '../../components/signin/GoogleSignInButton.tsx'
 
 // Below lg, text sizes use clamp(min, vw, max) so they follow the screen width;
 // from lg up the fixed rem values apply (rem itself scales with the viewport).
@@ -10,7 +10,7 @@ export default function SignInPage() {
   const onGoogleSignIn = () => {}
 
   return (
-    <main className="flex min-h-screen flex-col text-[#06090d] lg:h-screen lg:min-h-[64rem] lg:flex-row">
+    <main className="fluid-rem flex min-h-screen flex-col text-[#06090d] lg:h-screen lg:min-h-[64rem] lg:flex-row">
       <section className="relative isolate flex flex-col overflow-hidden bg-[#ebf3ee] px-[1.25rem] pt-[1.5rem] pb-[2.5rem] sm:px-[2rem] lg:w-[56.25%] lg:px-[3.0625rem] lg:pt-[1.6875rem] lg:pb-0">
         <BackgroundShapes />
 

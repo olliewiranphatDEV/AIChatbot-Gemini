@@ -1,12 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import SignInPage from './pages/SignInPage.tsx'
+import ChatPage from './pages/chat/ChatPage.tsx'
+import SignInPage from './pages/signin/SignInPage.tsx'
 
-// Both `/` and `/login` serve the sign-in page (the dev/preview server falls
-// back to index.html for any path), so no router is needed for this iteration.
+// Minimal path switch (no router yet): `/chat` shows the chat page, while `/`
+// and `/login` (the dev/preview server falls back to index.html for any path)
+// show the sign-in page.
+const path = window.location.pathname.replace(/\/+$/, '') || '/'
+const Page = path === '/chat' ? ChatPage : SignInPage
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SignInPage />
+    <Page />
   </StrictMode>,
 )
