@@ -29,10 +29,11 @@ type ChatPageProps = {
   logoutError?: string | null
 }
 
-export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogout, loggingOut, logoutError }: ChatPageProps) {
+export default function ChatPage({ session, activePage, onNavigate, onThemeChange, onLogout, loggingOut, logoutError }: ChatPageProps) {
   const isSettings = activePage === 'settings'
-  const user = { name: 'Guest' }
-  const conversations: Conversation[] = []
+  const isGuest = session.kind === 'guest'
+  const user = isGuest ? { name: 'Guest' } : session.user
+  const [conversations, setConversations] = useState<Conversation[]>([])
   const [activeId, setActiveId] = useState('chat-current')
   const [messagesByChat, setMessagesByChat] =
     useState<Record<string, ChatMessageData[]>>({})
@@ -62,8 +63,14 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
   const startNewChat = () => {
     nextId.current += 1
     const id = `chat-new-${nextId.current}`
-    // Guest keeps only its current conversation in memory.
-    setMessagesByChat({})
+    if (isGuest) {
+      // Guest keeps only the currently open conversation in memory. Starting
+      // another chat discards the previous messages rather than adding history.
+      setConversations([])
+      setMessagesByChat({})
+    } else {
+      setConversations((current) => [{ id, title: NEW_CHAT_TITLE, group: 'Today' }, ...current])
+    }
     setActiveId(id)
     setSidebarOpen(false)
     onNavigate('/chat')
@@ -81,7 +88,13 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
       ...current,
       [activeId]: [...(current[activeId] ?? []), message],
     }))
-
+    if (!isGuest) {
+      const title = text.length > 40 ? `${text.slice(0, 40).trimEnd()}…` : text
+      setConversations((current) => current.some(conversation => conversation.id === activeId)
+        ? current.map(conversation => conversation.id === activeId && conversation.title === NEW_CHAT_TITLE ? { ...conversation, title } : conversation)
+        : [{ id: activeId, title, group: 'Today' }, ...current],
+      )
+    }
   }
 
   const stopGenerating = () => {
@@ -138,12 +151,12 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
           onOpenMenu={openChatMenu}
         />
         <MessageList conversationId={activeId} messages={messages} />
-        <ChatComposer key={activeId} isGenerating={isGenerating} onSend={sendMessage} onStop={stopGenerating} />
+        <ChatComposer key={isGuest ? activeId : undefined} isGenerating={isGenerating} onSend={sendMessage} onStop={stopGenerating} />
       </main>
       {isSettings && (
         <SettingsPage
           user={user}
-          isGuest
+          isGuest={isGuest}
           theme={theme}
           onThemeChange={changeTheme}
           onLogout={onLogout}

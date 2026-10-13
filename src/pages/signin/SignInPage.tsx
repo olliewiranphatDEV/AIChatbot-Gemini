@@ -51,7 +51,7 @@ export default function SignInPage({ onGoogleSignIn, onGuest, busy, error }: Sig
             Sign in to start a conversation.
           </p>
           <div className="mt-[2rem] flex w-full justify-center sm:mt-[3.4375rem]">
-            <GoogleSignInButton onClick={onGoogleSignIn} />
+            <GoogleSignInButton onClick={onGoogleSignIn} busy={busy} />
           </div>
           <p className={`${typography.description} mt-[1.25rem] text-[#6b7280] sm:mt-[2.0625rem]`}>
             New here? Your account is created when you sign in.
