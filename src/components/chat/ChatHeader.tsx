@@ -1,3 +1,4 @@
+import { typography } from '../../styles/typography.ts'
 import { EllipsisIcon, MenuIcon } from './icons.tsx'
 
 type ChatHeaderProps = {
@@ -26,7 +27,7 @@ export default function ChatHeader({
         >
           <MenuIcon className="size-[1.5rem]" />
         </button>
-        <h1 className="min-w-0 flex-1 truncate text-[clamp(1.25rem,5.2vw,1.75rem)] leading-[1.3] font-semibold text-[#030918] lg:pb-[0.25rem] lg:text-[2.15rem]">
+        <h1 className={`${typography.title} min-w-0 flex-1 truncate text-[#030918] lg:pb-[0.25rem]`}>
           {title}
         </h1>
         <button

@@ -22,4 +22,5 @@ export type Conversation = {
 
 export type ChatUser = {
   name: string
+  email?: string
 }

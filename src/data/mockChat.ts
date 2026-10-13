@@ -2,7 +2,7 @@ import type { ChatMessageData, ChatUser, Conversation, ConversationGroup } from 
 
 // Static data for the chat UI. Replace with real data once the backend exists.
 
-export const mockUser: ChatUser = { name: 'Ollie' }
+export const mockUser: ChatUser = { name: 'Ollie', email: 'ollie@example.com' }
 
 export const conversationGroups: readonly ConversationGroup[] = ['Today', 'Yesterday']
 
