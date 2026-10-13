@@ -1,3 +1,4 @@
+import { typography } from '../../styles/typography.ts'
 import BrandLogo from '../shared/BrandLogo.tsx'
 
 function PersonIcon({ className }: { className?: string }) {
@@ -17,7 +18,7 @@ export default function ConversationPreview() {
       aria-hidden="true"
     >
       <div className="flex items-start justify-end gap-[0.625rem] lg:gap-[0.9375rem]">
-        <p className="flex min-h-[2.75rem] items-center rounded-[0.875rem] bg-[#e9f0ec] px-[1rem] py-[0.5rem] text-[clamp(0.9375rem,3.8vw,1.2125rem)] text-[#06090d] lg:h-16 lg:rounded-2xl lg:px-[1.375rem] lg:py-0 lg:text-[1.2125rem]">
+        <p className={`${typography.body} flex min-h-[2.75rem] items-center rounded-[0.875rem] bg-[#e9f0ec] px-[1rem] py-[0.5rem] text-[#06090d] lg:h-16 lg:rounded-2xl lg:px-[1.375rem] lg:py-0`}>
           Help me turn an idea into a plan.
         </p>
         <span className="flex size-[2.25rem] shrink-0 items-center justify-center rounded-full bg-[#ecf2ee] lg:mt-[0.4375rem] lg:size-[2.625rem]">
@@ -28,10 +29,10 @@ export default function ConversationPreview() {
       <div className="mt-[0.75rem] flex items-start gap-[0.625rem] lg:mt-[1.375rem] lg:gap-[1.375rem]">
         <BrandLogo className="size-[2.25rem] shrink-0 lg:size-[2.875rem]" />
         <div className="min-w-0 max-w-[23.625rem] flex-1 rounded-[0.875rem] bg-[#f3f4f3] px-[1rem] pt-[0.875rem] pb-[1rem] lg:min-h-[11.5625rem] lg:rounded-2xl lg:px-[1.375rem] lg:pt-[1rem] lg:pb-[1.5rem]">
-          <h3 className="text-[clamp(0.9375rem,3.8vw,1.2125rem)] leading-6 font-semibold text-[#06090d] lg:text-[1.2125rem] lg:leading-7">
+          <h3 className={`${typography.subheading} text-[#06090d]`}>
             Let’s start with your goal.
           </h3>
-          <p className="mt-[0.375rem] text-[clamp(0.8125rem,3.5vw,1.18rem)] leading-[1.5] text-[#374047] lg:mt-[0.5625rem] lg:text-[1.18rem] lg:leading-[1.6875rem]">
+          <p className={`${typography.description} mt-[0.375rem] text-[#374047] lg:mt-[0.5625rem]`}>
             What do you want to achieve? A clear goal will help us break your idea into simple,
             actionable steps.
           </p>
