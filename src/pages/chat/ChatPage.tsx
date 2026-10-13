@@ -3,13 +3,8 @@ import ChatComposer from '../../components/chat/ChatComposer.tsx'
 import ChatHeader from '../../components/chat/ChatHeader.tsx'
 import ChatSidebar from '../../components/chat/ChatSidebar.tsx'
 import MessageList from '../../components/chat/MessageList.tsx'
-import {
-  initialActiveConversationId,
-  mockConversations,
-  mockMessages,
-  mockUser,
-} from '../../data/mockChat.ts'
 import type { ChatMessageData, Conversation } from '../../types/chat.ts'
+import type { WorkspaceSession } from '../../types/auth.ts'
 import SettingsPage from '../settings/SettingsPage.tsx'
 import type { ThemePreference } from '../../components/settings/ThemeSelector.tsx'
 
@@ -25,18 +20,22 @@ function formatTime(date: Date): string {
 // Local-only state: nothing is sent anywhere yet (no Gemini/backend), so sending
 // adds the user's message but never fabricates an AI reply.
 type ChatPageProps = {
+  session: WorkspaceSession
   activePage: 'chat' | 'settings'
   onNavigate: (path: '/chat' | '/settings') => void
   onThemeChange?: (theme: ThemePreference) => void
   onLogout?: () => void
+  loggingOut?: boolean
+  logoutError?: string | null
 }
 
-export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogout }: ChatPageProps) {
+export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogout, loggingOut, logoutError }: ChatPageProps) {
   const isSettings = activePage === 'settings'
-  const [conversations, setConversations] = useState<Conversation[]>(mockConversations)
-  const [activeId, setActiveId] = useState(initialActiveConversationId)
+  const user = { name: 'Guest' }
+  const conversations: Conversation[] = []
+  const [activeId, setActiveId] = useState('chat-current')
   const [messagesByChat, setMessagesByChat] =
-    useState<Record<string, ChatMessageData[]>>(mockMessages)
+    useState<Record<string, ChatMessageData[]>>({})
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [theme, setTheme] = useState<ThemePreference>('light')
   const nextId = useRef(0)
@@ -63,7 +62,8 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
   const startNewChat = () => {
     nextId.current += 1
     const id = `chat-new-${nextId.current}`
-    setConversations((current) => [{ id, title: NEW_CHAT_TITLE, group: 'Today' }, ...current])
+    // Guest keeps only its current conversation in memory.
+    setMessagesByChat({})
     setActiveId(id)
     setSidebarOpen(false)
     onNavigate('/chat')
@@ -81,14 +81,7 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
       ...current,
       [activeId]: [...(current[activeId] ?? []), message],
     }))
-    // Name a fresh chat after its first message.
-    setConversations((current) =>
-      current.map((conversation) =>
-        conversation.id === activeId && conversation.title === NEW_CHAT_TITLE
-          ? { ...conversation, title: text.length > 40 ? `${text.slice(0, 40).trimEnd()}…` : text }
-          : conversation,
-      ),
-    )
+
   }
 
   const stopGenerating = () => {
@@ -115,11 +108,13 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
   const openChatMenu = () => {}
 
   return (
+    // Match Chat's desktop rem sizing on Settings, using a Tailwind ancestor
+    // variant so the existing global CSS and Chat appearance stay unchanged.
     <div className={`${isSettings ? 'settings-root desk:[html:has(&)]:text-[clamp(12px,min(calc(100vw/96),calc(100vh/64)),16px)]!' : 'chat-root'} flex h-dvh overflow-hidden bg-[#f9f9f7] text-[#050a12]`}>
       <ChatSidebar
         conversations={conversations}
         activeId={activeId}
-        user={mockUser}
+        user={user}
         open={sidebarOpen}
         onSelect={selectConversation}
         onNewChat={startNewChat}
@@ -143,14 +138,17 @@ export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogo
           onOpenMenu={openChatMenu}
         />
         <MessageList conversationId={activeId} messages={messages} />
-        <ChatComposer isGenerating={isGenerating} onSend={sendMessage} onStop={stopGenerating} />
+        <ChatComposer key={activeId} isGenerating={isGenerating} onSend={sendMessage} onStop={stopGenerating} />
       </main>
       {isSettings && (
         <SettingsPage
-          user={mockUser}
+          user={user}
+          isGuest
           theme={theme}
           onThemeChange={changeTheme}
           onLogout={onLogout}
+          loggingOut={loggingOut}
+          logoutError={logoutError}
           sidebarOpen={sidebarOpen}
           onOpenSidebar={() => setSidebarOpen(true)}
           onBackToChat={() => { setSidebarOpen(false); onNavigate('/chat') }}

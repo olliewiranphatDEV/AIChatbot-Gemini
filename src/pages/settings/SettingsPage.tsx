@@ -9,15 +9,18 @@ const cardClassName = 'settings-card rounded-[0.6875rem] border border-[#dfe3e0]
 
 type SettingsPageProps = {
   user: ChatUser
+  isGuest?: boolean
   theme: ThemePreference
   onThemeChange: (theme: ThemePreference) => void
   onLogout?: () => void
+  loggingOut?: boolean
+  logoutError?: string | null
   sidebarOpen: boolean
   onOpenSidebar: () => void
   onBackToChat: () => void
 }
 
-export default function SettingsPage({ user, theme, onThemeChange, onLogout, sidebarOpen, onOpenSidebar, onBackToChat }: SettingsPageProps) {
+export default function SettingsPage({ user, isGuest = false, theme, onThemeChange, onLogout, loggingOut = false, logoutError, sidebarOpen, onOpenSidebar, onBackToChat }: SettingsPageProps) {
   return (
     <main className="settings-main relative min-w-0 flex-1 overflow-y-auto bg-[#f9f9f7] text-[#071015]">
       <div className="settings-navigation flex items-center justify-between px-4 pt-4 sm:px-8 desk:absolute desk:top-[1.9375rem] desk:right-8 desk:p-0">
@@ -47,10 +50,10 @@ export default function SettingsPage({ user, theme, onThemeChange, onLogout, sid
             <span aria-hidden="true" className={`${typography.accountAvatar} flex size-14 shrink-0 items-center justify-center rounded-full bg-[#0e6256] text-white shadow-[0_2px_4px_rgb(20_50_40_/_5%)] sm:size-[5.375rem]`}>{user.name.charAt(0).toUpperCase()}</span>
             <div className="min-w-0 desk:pt-[0.1875rem]">
               <p className={`${typography.subheading} break-words [overflow-wrap:anywhere]`}>{user.name}</p>
-              <p className={`${typography.description} text-[#6b7680] [overflow-wrap:anywhere]`}>{user.email}</p>
+              <p className={`${typography.description} text-[#6b7680] [overflow-wrap:anywhere]`}>{isGuest ? 'Temporary session' : user.email}</p>
               <span className={`${typography.badge} mt-2 flex w-fit max-w-full items-center gap-2 rounded-full bg-[#f0f2f2] px-[0.875rem] py-1 text-[#626e75]`}>
-                <GoogleLogo className="size-[1.0625rem] shrink-0" />
-                <span>Google account</span>
+                {!isGuest && <GoogleLogo className="size-[1.0625rem] shrink-0" />}
+                <span>{isGuest ? 'Guest session' : 'Google account'}</span>
               </span>
             </div>
           </div>
@@ -69,10 +72,11 @@ export default function SettingsPage({ user, theme, onThemeChange, onLogout, sid
           <h2 id="session-heading" className={typography.header}>Session</h2>
           <div className={`${cardClassName} mt-[0.8125rem] flex min-w-0 flex-wrap items-center justify-between gap-x-6 gap-y-4 px-5 py-[1.3125rem] desk:min-h-[6.3125rem] desk:pr-[1.3125rem] desk:pl-[1.625rem]`}>
             <div className="min-w-0">
-              <h3 className={`${typography.subheading} break-words`}>Signed in with Google</h3>
-              <p className={`${typography.description} mt-[0.125rem] text-[#6b7680]`}>Log out on this device.</p>
+              <h3 className={`${typography.subheading} break-words`}>{isGuest ? 'Guest session' : 'Signed in with Google'}</h3>
+              <p className={`${typography.description} mt-[0.125rem] text-[#6b7680]`}>{isGuest ? 'Chat history is not saved.' : 'Log out on this device.'}</p>
             </div>
-            <button type="button" onClick={() => onLogout?.()} className={`${typography.button} flex h-[2.9375rem] w-[6.875rem] shrink-0 cursor-pointer items-center justify-center rounded-[0.625rem] border border-[#b71923] text-[#b71923] shadow-[0_1px_3px_rgba(90,20,20,0.05)] hover:bg-[#fff6f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b71923] desk:-translate-y-[0.1875rem]`}>Log out</button>
+            <button type="button" onClick={() => onLogout?.()} disabled={loggingOut} aria-busy={loggingOut} className={`${typography.button} flex h-[2.9375rem] w-[6.875rem] shrink-0 cursor-pointer items-center justify-center rounded-[0.625rem] border border-[#b71923] text-[#b71923] shadow-[0_1px_3px_rgba(90,20,20,0.05)] hover:bg-[#fff6f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b71923] disabled:cursor-wait disabled:opacity-60 desk:-translate-y-[0.1875rem]`}>{isGuest ? 'Exit guest' : 'Log out'}</button>
+            {logoutError && <p role="alert" className={`${typography.description} w-full text-[#b71923]`}>{logoutError}</p>}
           </div>
         </section>
       </div>
