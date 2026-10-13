@@ -4,7 +4,7 @@ type IconProps = {
 
 const base = { 'aria-hidden': true, focusable: false } as const
 
-export function ChatBubbleIcon({ className }: IconProps) {
+export function ChatBubbleIcon({ className, rounded = false }: IconProps & { rounded?: boolean }) {
   return (
     <svg
       {...base}
@@ -15,7 +15,9 @@ export function ChatBubbleIcon({ className }: IconProps) {
       strokeWidth="1.6"
       strokeLinejoin="round"
     >
-      <path d="M3.5 2h14a2 2 0 0 1 2 2v9.5a2 2 0 0 1-2 2H8.5L4 19.5v-4h-.5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+      <path d={rounded
+        ? 'M19 9.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L1.5 19l1.4-5.3A8.5 8.5 0 1 1 19 9.5Z'
+        : 'M3.5 2h14a2 2 0 0 1 2 2v9.5a2 2 0 0 1-2 2H8.5L4 19.5v-4h-.5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z'} />
     </svg>
   )
 }

@@ -10,6 +10,8 @@ import {
   mockUser,
 } from '../../data/mockChat.ts'
 import type { ChatMessageData, Conversation } from '../../types/chat.ts'
+import SettingsPage from '../settings/SettingsPage.tsx'
+import type { ThemePreference } from '../../components/settings/ThemeSelector.tsx'
 
 const NEW_CHAT_TITLE = 'New chat'
 
@@ -22,12 +24,21 @@ function formatTime(date: Date): string {
 
 // Local-only state: nothing is sent anywhere yet (no Gemini/backend), so sending
 // adds the user's message but never fabricates an AI reply.
-export default function ChatPage() {
+type ChatPageProps = {
+  activePage: 'chat' | 'settings'
+  onNavigate: (path: '/chat' | '/settings') => void
+  onThemeChange?: (theme: ThemePreference) => void
+  onLogout?: () => void
+}
+
+export default function ChatPage({ activePage, onNavigate, onThemeChange, onLogout }: ChatPageProps) {
+  const isSettings = activePage === 'settings'
   const [conversations, setConversations] = useState<Conversation[]>(mockConversations)
   const [activeId, setActiveId] = useState(initialActiveConversationId)
   const [messagesByChat, setMessagesByChat] =
     useState<Record<string, ChatMessageData[]>>(mockMessages)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [theme, setTheme] = useState<ThemePreference>('light')
   const nextId = useRef(0)
 
   const activeConversation = conversations.find((conversation) => conversation.id === activeId)
@@ -46,6 +57,7 @@ export default function ChatPage() {
   const selectConversation = (id: string) => {
     setActiveId(id)
     setSidebarOpen(false)
+    onNavigate('/chat')
   }
 
   const startNewChat = () => {
@@ -54,6 +66,7 @@ export default function ChatPage() {
     setConversations((current) => [{ id, title: NEW_CHAT_TITLE, group: 'Today' }, ...current])
     setActiveId(id)
     setSidebarOpen(false)
+    onNavigate('/chat')
   }
 
   const sendMessage = (text: string) => {
@@ -87,15 +100,22 @@ export default function ChatPage() {
     }))
   }
 
-  // Placeholders: Settings and the three-dot menus are built in a later iteration.
-  const openSettings = () => {}
+  const openSettings = () => {
+    setSidebarOpen(false)
+    onNavigate('/settings')
+  }
+  const changeTheme = (value: ThemePreference) => {
+    setTheme(value)
+    onThemeChange?.(value)
+  }
+  // The three-dot menus remain placeholders until their own implementation.
   const openItemMenu = (id: string) => {
     void id
   }
   const openChatMenu = () => {}
 
   return (
-    <div className="chat-root flex h-dvh overflow-hidden bg-[#f9f9f7] text-[#050a12]">
+    <div className={`${isSettings ? 'settings-root desk:[html:has(&)]:text-[clamp(12px,min(calc(100vw/96),calc(100vh/64)),16px)]!' : 'chat-root'} flex h-dvh overflow-hidden bg-[#f9f9f7] text-[#050a12]`}>
       <ChatSidebar
         conversations={conversations}
         activeId={activeId}
@@ -105,6 +125,7 @@ export default function ChatPage() {
         onNewChat={startNewChat}
         onOpenSettings={openSettings}
         onOpenItemMenu={openItemMenu}
+        variant={isSettings ? 'settings' : 'chat'}
       />
       {sidebarOpen && (
         <div
@@ -114,7 +135,7 @@ export default function ChatPage() {
         />
       )}
 
-      <main className="flex min-w-0 flex-1 flex-col">
+      <main className={`${isSettings ? 'hidden' : 'flex'} min-w-0 flex-1 flex-col`}>
         <ChatHeader
           title={activeConversation?.title ?? NEW_CHAT_TITLE}
           sidebarOpen={sidebarOpen}
@@ -124,6 +145,17 @@ export default function ChatPage() {
         <MessageList conversationId={activeId} messages={messages} />
         <ChatComposer isGenerating={isGenerating} onSend={sendMessage} onStop={stopGenerating} />
       </main>
+      {isSettings && (
+        <SettingsPage
+          user={mockUser}
+          theme={theme}
+          onThemeChange={changeTheme}
+          onLogout={onLogout}
+          sidebarOpen={sidebarOpen}
+          onOpenSidebar={() => setSidebarOpen(true)}
+          onBackToChat={() => { setSidebarOpen(false); onNavigate('/chat') }}
+        />
+      )}
     </div>
   )
 }
