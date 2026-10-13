@@ -10,5 +10,6 @@ export default defineConfig({
   use: { channel: 'chrome', headless: true, trace: 'retain-on-failure' },
   webServer: [
     { command: 'node scripts/auth-test-server.mjs', url: 'http://127.0.0.1:5180', reuseExistingServer: false },
+    { command: 'node scripts/auth-test-server.mjs --emulator', url: 'http://127.0.0.1:5181', reuseExistingServer: false },
   ],
 })
