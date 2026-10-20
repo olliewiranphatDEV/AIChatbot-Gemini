@@ -246,6 +246,108 @@ No Firebase backend deployment is part of these commands. Backend hosting remain
 
 These instructions do not imply that unconfirmed steps have already been completed.
 
+## 6. Configure Firebase Authentication for Google sign-in
+
+### Why this setup is required
+
+The four Firebase Web configuration values identify the Firebase project and Web app. **They do not enable Google sign-in by themselves.** Firebase Authentication must be initialized, and Google must be enabled as a sign-in provider so the application can authenticate users with their Google Accounts.
+
+With the existing frontend Firebase Auth implementation, this configuration allows the app to complete Google account sign-in, obtain the signed-in user's identity, and open the Chat page. Authentication identifies the user; storing chat history in Firestore and connecting Gemini are separate tasks.
+
+The steps below expand the brief Authentication instructions in Section 1 and follow the Firebase Console screens used for this project.
+
+### Step 1: Open Authentication
+
+1. Open [Firebase Console](https://console.firebase.google.com/).
+2. Select **AIChatbot-Gemini**, with project ID **aichatbot-gemini**.
+3. Open **Authentication** from the left sidebar. In the observed console, it appears under **Project shortcuts**; it can also be accessed through the **Security** product category. Some console layouts group it under Build.
+
+**Expected screen:** the Authentication introduction page if the service has not yet been initialized, or its existing management tabs if it has.
+
+### Step 2: Initialize Authentication
+
+1. On the Authentication introduction page, click **Get started**.
+2. The console opens the **Sign-in method** tab and displays the available sign-in providers.
+
+If Authentication is already initialized, go directly to **Sign-in method**.
+
+### Step 3: Select Google
+
+1. In **Sign-in providers**, find **Additional providers**.
+2. Click **Google**.
+3. If a provider list is already present, open the Google row; if Google is absent, use **Add new provider** and select Google.
+
+**Expected screen:** the Google provider configuration panel with an **Enable** switch.
+
+### Step 4: Turn on Enable
+
+1. Turn on **Enable** at the upper-right corner of the Google configuration panel.
+2. A project-level settings section appears with **Public-facing name for project** and **Support email for project**.
+
+The **SHA-1 release fingerprint** notice applies to native Android apps. This React website does not require an Android fingerprint for its browser sign-in flow, including when opened in a mobile browser.
+
+### Step 5: Set the public-facing name and support email
+
+| Field | What to enter | Purpose |
+| --- | --- | --- |
+| **Public-facing name for project** | The app's public name. The name entered during this setup was **AI Chatbot by Gemini**. | The app name intended to be shown to users during Google sign-in and consent. It is separate from the Firebase project ID. |
+| **Support email for project** | Select your own available email address from the dropdown. | Provides the contact address for users who have questions about the app's sign-in or authorization. |
+
+The public-facing name can be changed later; see Section 7. Google may show the application's domain instead of its app name until the branding is verified and published.
+
+For the standard Firebase Google provider setup used here:
+
+- Leave **Safelist client IDs from external projects (optional)** empty.
+- Leave **Web SDK configuration**, including **Web client ID** and **Web client secret**, at the console's defaults. This setup did not involve supplying custom OAuth credentials manually.
+
+### Step 6: Save and confirm the provider
+
+1. Scroll to the bottom of the Google configuration panel.
+2. Click **Save**.
+3. Wait for the console to return to the **Sign-in providers** list.
+4. Confirm that **Google** has the status **Enabled**.
+
+This completes the provider configuration. The four Firebase Web values in `.env.local` remain the frontend configuration; no Google client secret needs to be added to that file for this flow.
+
+### Step 7: Test the application
+
+1. Open the running frontend at **http://localhost:5173**, or the local URL printed by Vite if a different port is in use.
+2. Click **Continue with Google**.
+3. Select a Google Account in the popup and complete any prompts.
+4. Confirm that the application opens **/chat** and displays the signed-in user's name in the sidebar.
+5. Open Settings to check the account information, then test Log out.
+
+Refer to **Section 1, Step 6** for authorized-domain configuration when using another local hostname or a deployed website. Successful local sign-in does not confirm sign-in on a future deployment.
+
+On **14 October 2026**, the Google provider was shown as **Enabled**, and the user confirmed successful Google Account sign-in and access to the local Chat page. Settings and Log out checks are verification steps above, not claimed completed checks. The status table in Section 5 records the earlier checkpoint when the original guide was requested.
+
+## 7. Change the app name later
+
+### Step 1: Open the correct Google Cloud project
+
+1. Open [Google Cloud Console](https://console.cloud.google.com/).
+2. Select the project associated with Firebase project ID **aichatbot-gemini**.
+
+### Step 2: Edit the OAuth app name
+
+1. Open **Google Auth Platform → Branding**.
+2. In **App Information**, find **App name**.
+3. Enter the new public app name and save the changes.
+
+**The app name can be changed later through Google Cloud Console → Google Auth Platform → Branding → App name. Displaying the new name on the Google consent screen may require branding verification and publication first.**
+
+### Step 3: Verify and publish branding when required
+
+1. Review the branding status shown by Google Auth Platform.
+2. If verification is required, follow the **Verify Branding** process.
+3. After approval, use **Publish branding** when offered to make the updated branding visible to users.
+
+Saving a draft does not necessarily change the name users immediately see. Google distinguishes draft branding from published branding; before branding is verified and published, users may see the application domain, such as **aichatbot-gemini.firebaseapp.com**, instead of the app name.
+
+### Step 4: Update the website's own name separately
+
+If the website is being renamed as well, update its visible branding and browser-tab title in the frontend, then rebuild and deploy it. Changing the OAuth app name does not automatically rename the React interface, the Firebase project ID, or the Hosting domain.
+
 ## Official references
 
 - [Firebase Web setup](https://firebase.google.com/docs/web/setup)
@@ -257,3 +359,4 @@ These instructions do not imply that unconfirmed steps have already been complet
 - [Firebase Hosting quotas and pricing](https://firebase.google.com/docs/hosting/usage-quotas-pricing)
 - [Vite environment variables](https://vite.dev/guide/env-and-mode)
 - [Vite production builds](https://vite.dev/guide/build)
+- [Manage OAuth app branding](https://support.google.com/cloud/answer/15549049?hl=en)
