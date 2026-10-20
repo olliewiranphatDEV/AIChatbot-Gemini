@@ -8,6 +8,8 @@ Object.assign(process.env, {
   VITE_FIREBASE_PROJECT_ID: useEmulator ? 'demo-ai-chatbot' : '',
   VITE_FIREBASE_APP_ID: useEmulator ? 'demo-app-id' : '',
   VITE_FIREBASE_AUTH_EMULATOR_URL: useEmulator ? 'http://127.0.0.1:9099' : '',
+  // An address nothing listens on: tests that need the backend answer these requests themselves.
+  VITE_API_BASE_URL: 'http://127.0.0.1:3999',
 })
 const server = await createServer({
   mode: 'test',

@@ -35,7 +35,7 @@ export default function GoogleSignInButton({ onClick, busy = false }: GoogleSign
       onClick={onClick}
       disabled={busy}
       aria-busy={busy}
-      className={`${typography.button} flex h-[3.5rem] w-full max-w-[28.375rem] cursor-pointer items-center justify-center gap-[0.75rem] rounded-[0.875rem] border border-[#dbe2e1] bg-white text-[#05080d] shadow-[0_1px_2px_rgba(20,50,40,0.04)] transition-colors hover:bg-[#fafcfb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-wait disabled:opacity-60 sm:h-[4.3125rem] sm:gap-[1.375rem]`}
+      className={`${typography.button} flex h-[3.5rem] w-full max-w-[28.375rem] cursor-pointer items-center justify-center gap-[0.75rem] rounded-[0.875rem] border border-line bg-panel text-ink shadow-[0_1px_2px_rgba(20,50,40,0.04)] transition-colors hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-alt disabled:cursor-wait disabled:opacity-60 sm:h-[4.3125rem] sm:gap-[1.375rem]`}
     >
       <GoogleLogo className="size-[1.75rem] sm:size-[2.25rem]" />
       <span>{busy ? 'Signing in...' : 'Continue with Google'}</span>
