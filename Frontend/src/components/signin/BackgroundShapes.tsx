@@ -83,10 +83,17 @@ const SHAPES: ReadonlyArray<{ fill: string; points: readonly Point[] }> = [
 
 const PATHS = SHAPES.map((shape) => ({ fill: shape.fill, d: smoothClosedPath(shape.points) }))
 
+// Dark Theme: the same shapes, drawn as faint mint veils over the dark base instead of being multiplied.
+const DARK_ALPHA = [0.09, 0.14, 0.06, 0.07, 0.06, 0.08]
+const DARK_PATHS = SHAPES.map((shape, index) => ({ alpha: DARK_ALPHA[index], d: smoothClosedPath(shape.points) }))
+
+const SVG_CLASS = 'pointer-events-none absolute inset-0 -z-10 size-full desk:right-auto desk:bottom-auto desk:h-[64rem] desk:w-[54rem] desk:overflow-visible'
+
 export default function BackgroundShapes() {
   return (
+    <>
     <svg
-      className="pointer-events-none absolute inset-0 -z-10 size-full lg:right-auto lg:bottom-auto lg:h-[64rem] lg:w-[54rem] lg:overflow-visible"
+      className={`${SVG_CLASS} dark:hidden`}
       viewBox="0 0 864 1024"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
@@ -121,5 +128,17 @@ export default function BackgroundShapes() {
         <path key={d} d={d} fill={fill} filter="url(#bg-soft)" style={{ mixBlendMode: 'multiply' }} />
       ))}
     </svg>
+    <svg className={`${SVG_CLASS} hidden dark:block`} viewBox="0 0 864 1024" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="bg-soft-dark" x="-5%" y="-5%" width="110%" height="110%">
+          <feGaussianBlur stdDeviation="2" />
+        </filter>
+      </defs>
+      <rect x="-1000" y="-1000" width="3000" height="8000" fill="var(--color-hero)" />
+      {DARK_PATHS.map(({ alpha, d }) => (
+        <path key={d} d={d} fill={`rgba(141, 204, 179, ${alpha})`} filter="url(#bg-soft-dark)" />
+      ))}
+    </svg>
+    </>
   )
 }

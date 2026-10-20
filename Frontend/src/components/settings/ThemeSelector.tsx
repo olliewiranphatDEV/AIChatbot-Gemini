@@ -2,12 +2,13 @@ import { typography } from '../../styles/typography.ts'
 import { useRef } from 'react'
 import type { KeyboardEvent } from 'react'
 
-export type ThemePreference = 'light' | 'dark' | 'system'
+import type { ThemePreference } from '../../theme/theme.ts'
+
+export type { ThemePreference }
 
 const themes: { value: ThemePreference; label: string }[] = [
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
-  { value: 'system', label: 'System' },
 ]
 
 function PreviewSurface({ dark = false }: { dark?: boolean }) {
@@ -58,7 +59,7 @@ export default function ThemeSelector({
   }
 
   return (
-    <div role="radiogroup" aria-label="Theme" aria-describedby="theme-description" className="grid grid-cols-1 gap-4 @min-[37.5rem]:grid-cols-3">
+    <div role="radiogroup" aria-label="Theme" aria-describedby="theme-description" className="grid grid-cols-1 gap-4 @min-[37.5rem]:grid-cols-2">
       {themes.map((theme, index) => {
         const selected = theme.value === value
         return (
@@ -72,15 +73,14 @@ export default function ThemeSelector({
             tabIndex={selected ? 0 : -1}
             onClick={() => onThemeChange(theme.value)}
             onKeyDown={(event) => onKeyDown(event, index)}
-            className={`${typography.label} theme-option relative flex min-w-0 cursor-pointer flex-col items-center rounded-[0.625rem] border px-[1.875rem] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand [@media(min-width:600px)_and_(max-width:1199px)]:px-[0.875rem] ${theme.value === 'light' ? 'pt-[1.5rem] pb-[0.6875rem]' : theme.value === 'system' ? 'pt-[1.375rem] pb-[0.8125rem]' : 'pt-[1.4375rem] pb-[0.75rem]'} ${selected ? 'border-[#00856e] bg-[#f1f8f5] ring-[0.03125rem] ring-[#00856e]' : 'border-[#d9dddf] bg-white hover:border-[#a5bcb5]'}`}
+            className={`${typography.label} theme-option relative flex min-w-0 cursor-pointer flex-col items-center rounded-[0.625rem] border px-[1.875rem] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-alt [@media(min-width:600px)_and_(max-width:1199px)]:px-[0.875rem] ${theme.value === 'light' ? 'pt-[1.5rem] pb-[0.6875rem]' : 'pt-[1.4375rem] pb-[0.75rem]'} ${selected ? 'border-brand bg-hover ring-[0.03125rem] ring-brand' : 'border-line bg-surface hover:border-line-strong'}`}
           >
-            <div aria-hidden="true" className={`theme-preview relative w-full overflow-hidden rounded-[0.4375rem] border border-[#d9dddf] ${theme.value === 'system' ? 'max-w-[15.75rem]' : 'max-w-[15.25rem]'} ${theme.value === 'light' ? 'h-[6.5rem]' : 'h-[6.6875rem]'}`}>
+            <div aria-hidden="true" className={`theme-preview relative w-full overflow-hidden rounded-[0.4375rem] border border-line max-w-[15.25rem] ${theme.value === 'light' ? 'h-[6.5rem]' : 'h-[6.6875rem]'}`}>
               <PreviewSurface dark={theme.value === 'dark'} />
-              {theme.value === 'system' && <div className="absolute inset-0 [clip-path:polygon(55%_0,100%_0,100%_100%,42%_100%)]"><PreviewSurface dark /></div>}
             </div>
             <span className={theme.value === 'light' ? 'mt-[0.8125rem]' : 'mt-[0.625rem]'}>{theme.label}</span>
             {selected && (
-              <span aria-hidden="true" className="absolute top-3 right-3 flex size-[1.8125rem] items-center justify-center rounded-full bg-[#147764] text-white shadow-sm">
+              <span aria-hidden="true" className="absolute top-3 right-3 flex size-[1.8125rem] items-center justify-center rounded-full bg-brand text-on-brand shadow-sm">
                 <svg viewBox="0 0 24 24" fill="none" className="size-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 4 4 10-10" /></svg>
               </span>
             )}

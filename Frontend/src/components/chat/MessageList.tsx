@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { blocksToText } from '../../api/chatMessages.ts'
 import type { ChatMessageData } from '../../types/chat.ts'
 import ChatMessage from './ChatMessage.tsx'
 
@@ -11,10 +12,14 @@ type MessageListProps = {
 export default function MessageList({ conversationId, messages }: MessageListProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  // A voice reply grows while it is spoken, so follow the length of the newest message too.
+  const tail = messages.at(-1)
+  const tailLength = tail ? blocksToText(tail.blocks).length : 0
+
   useEffect(() => {
     const el = scrollRef.current
     if (el) el.scrollTop = el.scrollHeight
-  }, [conversationId, messages.length])
+  }, [conversationId, messages.length, tailLength])
 
   return (
     <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">

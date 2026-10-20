@@ -8,20 +8,92 @@
  */
 @custom-variant desk (@media (min-width: 1024px) and (orientation: landscape));
 
+/* The Dark Theme is the .dark class on <html> (set before the first paint, see index.html and theme/theme.ts). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Google Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-brand: #1a6a5b;
+
+  /*
+   * Semantic colours. The values here are the Light Theme; the .dark block below
+   * redefines every one of them for the Dark Theme, so components never name a
+   * colour, only its role (bg-surface, text-ink-2, border-line, ...).
+   */
+  --color-canvas: #f9f9f7;        /* page background */
+  --color-header: #fdfdfd;        /* top bar */
+  --color-surface: #ffffff;       /* raised: cards, composer, assistant messages */
+  --color-field: #ffffff;         /* text field inside a raised surface */
+  --color-panel: #ffffff;         /* sign-in form side */
+  --color-sidebar: #f0f1ef;       /* sidebar / secondary background */
+  --color-bubble: #e7eeea;        /* user message */
+  --color-fill: #f3f4f3;          /* quiet fills inside cards */
+  --color-hover: #eef4f1;         /* hover on a control */
+  --color-selected: #e4ebe6;      /* selected row / tile */
+  --color-selected-2: #cfe0d9;    /* pressed or toggled-on control */
+  --color-hero: #ebf3ee;          /* sign-in decorative side */
+  --color-line: #e5e7e8;          /* borders and dividers */
+  --color-line-strong: #9db5ac;   /* emphasised outlines */
+  --color-ink: #050a12;           /* primary text */
+  --color-ink-soft: #344047;      /* strong secondary text */
+  --color-ink-2: #5c6068;         /* secondary text */
+  --color-muted: #73777f;         /* tertiary text, placeholders, icons */
+  --color-faint: #9a9ea5;         /* disabled / decorative */
+  --color-accent-soft: #5f9b86;   /* small accent labels */
+  --color-brand: #176b59;         /* accent: primary buttons, links, focus */
+  --color-brand-hover: #135a4a;
+  --color-brand-alt: #1a6a5b;     /* the original accent shade (sign-in Guest button, small accents) */
+  --color-on-brand: #ffffff;      /* text on a brand-filled button */
+  --color-logo: #1a6a5b;          /* the logo square and avatars */
+  --color-logo-deep: #0d5c4b;
+  --color-avatar: #d2d5da;
+  --color-danger: #b71923;
+  --color-danger-soft: #fff6f6;
+}
+
+/* Dark Theme: the approved palette. */
+.dark {
+  color-scheme: dark;
+  --color-canvas: #101815;
+  --color-header: #101815;
+  --color-surface: #1c2a24;
+  --color-field: #16231e;
+  --color-panel: #101815;
+  --color-sidebar: #141f1b;
+  --color-bubble: #233c31;
+  --color-fill: #223229;
+  --color-hover: #243c31;
+  --color-selected: #233c31;
+  --color-selected-2: #2d4a3c;
+  --color-hero: #15231e;
+  --color-line: #30453b;
+  --color-line-strong: #4a6558;
+  --color-ink: #edf4ef;
+  --color-ink-soft: #cfdcd3;
+  --color-ink-2: #a6b7ad;
+  --color-muted: #8fa197;
+  --color-faint: #6f8177;
+  --color-accent-soft: #7fb59d;
+  --color-brand: #8dccb3;
+  --color-brand-hover: #a6dcc6;
+  --color-brand-alt: #8dccb3;
+  --color-on-brand: #10251c;
+  --color-logo: #146a56;
+  --color-logo-deep: #146a56;
+  --color-avatar: #2f4a3e;
+  --color-danger: #f0847b;
+  --color-danger-soft: #3a2020;
 }
 
 /*
  * Pages that opt in with the .fluid-rem class (the sign-in page) are authored
- * at 1536 x 1024 (1rem = 16px there). From the lg breakpoint up, rem scales
+ * at 1536 x 1024 (1rem = 16px there). In the two-column layout (the desk variant:
+ * wide AND landscape; a tall tablet in portrait is stacked like a phone), rem scales
  * with whichever viewport side is the limiting one, so the whole layout keeps
  * the reference proportions: on wide-but-short screens (monitors) it shrinks
  * to fit the height instead of pushing content below the fold. The 10px floor
  * stops it getting tiny. Other pages (chat) keep a normal 16px rem.
  */
-@media (min-width: 1024px) {
+@media (min-width: 1024px) and (orientation: landscape) {
   html:has(.fluid-rem) {
     font-size: max(10px, min(calc(100vw / 96), calc(100vh / 64)));
   }
@@ -64,7 +136,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #fff;
+  background: var(--color-panel);
   font-family: var(--font-sans);
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;

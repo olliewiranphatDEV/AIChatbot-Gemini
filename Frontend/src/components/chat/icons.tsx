@@ -106,3 +106,90 @@ export function SendArrowIcon({ className }: IconProps) {
     </svg>
   )
 }
+
+export function MicIcon({ className }: IconProps) {
+  return (
+    <svg
+      {...base}
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="9" y="2.5" width="6" height="12" rx="3" />
+      <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7" />
+    </svg>
+  )
+}
+
+export function MicOffIcon({ className }: IconProps) {
+  return (
+    <svg
+      {...base}
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 9.5v2a3 3 0 0 0 4.7 2.5M15 10.5V5.5a3 3 0 0 0-5.8-1M5.5 11.5a6.5 6.5 0 0 0 10.3 5.3M18.5 11.5c0 .9-.2 1.8-.5 2.6M12 18v3.5M8.5 21.5h7M3 3l18 18" />
+    </svg>
+  )
+}
+
+/** Sound-wave bars: the Live (real-time conversation) mark. */
+export function LiveWaveIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4" />
+    </svg>
+  )
+}
+
+export function CloseIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  )
+}
+
+export function ChevronLeftIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  )
+}
+
+export function ClockIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  )
+}
+
+export function CaptionsIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2.5" y="5" width="19" height="14" rx="3" />
+      <path d="M10 10.3a2.2 2.2 0 1 0 0 3.4M17 10.3a2.2 2.2 0 1 0 0 3.4" />
+    </svg>
+  )
+}
+
+/** Handset laid flat: the hang-up mark of the End live button. */
+export function HangUpIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 8.5c-3.1 0-5.9.9-8.2 2.4-.6.4-.9 1-.9 1.7v1.2c0 .8.7 1.4 1.5 1.3l2.6-.4c.6-.1 1-.6 1-1.2v-.9c1.2-.4 2.7-.6 4-.6s2.8.2 4 .6v.9c0 .6.4 1.1 1 1.2l2.6.4c.8.1 1.500-.5 1.500-1.300v-1.2c0-.7-.3-1.300-.9-1.700-2.300-1.500-5.100-2.400-8.200-2.400z" />
+    </svg>
+  )
+}
