@@ -75,7 +75,7 @@ export default function ChatComposer({ isGenerating, dictationEnabled, resetKey,
             rows={1}
             placeholder="Message AI Chat..."
             aria-label="Message AI Chat"
-            className={`${typography.input} block min-h-[4.5rem] w-full min-w-0 resize-none rounded-[0.625rem] border border-line bg-field p-[0.875rem] text-ink placeholder:text-muted disabled:bg-fill focus:outline-none focus-visible:border-brand focus-visible:ring-1 focus-visible:ring-brand lg:min-h-[6.1875rem] lg:p-[1.2rem]`}
+            className={`${typography.input} block min-h-[3.5rem] w-full min-w-0 resize-none rounded-[0.625rem] border border-line bg-field p-[0.8125rem] text-ink placeholder:text-muted disabled:bg-fill focus:outline-none focus-visible:border-brand focus-visible:ring-1 focus-visible:ring-brand lg:min-h-[4.25rem] lg:p-[1.2rem]`}
           />
           <button
             key="mic"
@@ -84,10 +84,9 @@ export default function ChatComposer({ isGenerating, dictationEnabled, resetKey,
             disabled={isGenerating || dictation.busy || !dictationEnabled}
             aria-label="Voice input"
             title="Speak, then check the text before sending"
-            className="flex h-[4.5rem] w-[3.5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-[0.375rem] rounded-[0.8125rem] border border-brand bg-surface text-brand transition-colors hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:bg-surface lg:h-[4.9375rem] lg:w-[4.25rem] lg:justify-start lg:gap-[0.6875rem] lg:pt-[1.1875rem]"
+            className="flex h-[3.5rem] w-[3.5rem] shrink-0 cursor-pointer items-center justify-center rounded-[0.8125rem] border border-brand bg-surface text-brand transition-colors hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:bg-surface lg:h-[4.25rem] lg:w-[4.25rem]"
           >
-            <MicIcon className="size-[1.3125rem]" />
-            <span className={typography.compactButton}>Voice</span>
+            <MicIcon className="size-[1.5rem]" />
           </button>
           {/* Distinct keys: otherwise React reuses one <button> and flips it to type=submit mid-click, so Stop would also send the draft. */}
           {isGenerating ? (
@@ -95,20 +94,22 @@ export default function ChatComposer({ isGenerating, dictationEnabled, resetKey,
               key="stop"
               type="button"
               onClick={onStop}
-              className="flex h-[4.5rem] w-[3.5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-[0.375rem] rounded-[0.8125rem] bg-brand text-on-brand transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:h-[4.9375rem] lg:w-[4.25rem] lg:justify-start lg:gap-[0.6875rem] lg:pt-[1.1875rem]"
+              aria-label="Stop"
+              title="Stop"
+              className="flex h-[3.5rem] w-[3.5rem] shrink-0 cursor-pointer items-center justify-center rounded-[0.8125rem] bg-brand text-on-brand transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:h-[4.25rem] lg:w-[4.25rem]"
             >
-              <StopSquareIcon className="size-[1.3125rem]" />
-              <span className={typography.compactButton}>Stop</span>
+              <StopSquareIcon className="size-[1.375rem]" />
             </button>
           ) : (
             <button
               key="send"
               type="submit"
               disabled={!canSend}
-              className="flex h-[4.5rem] w-[3.5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-[0.375rem] rounded-[0.8125rem] bg-brand text-on-brand transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:bg-brand lg:h-[4.9375rem] lg:w-[4.25rem] lg:justify-start lg:gap-[0.6875rem] lg:pt-[1.1875rem]"
+              aria-label="Send"
+              title="Send"
+              className="flex h-[3.5rem] w-[3.5rem] shrink-0 cursor-pointer items-center justify-center rounded-[0.8125rem] bg-brand text-on-brand transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:bg-brand lg:h-[4.25rem] lg:w-[4.25rem]"
             >
-              <SendArrowIcon className="size-[1.3125rem]" />
-              <span className={typography.compactButton}>Send</span>
+              <SendArrowIcon className="size-[1.5rem]" />
             </button>
           )}
         </form>
