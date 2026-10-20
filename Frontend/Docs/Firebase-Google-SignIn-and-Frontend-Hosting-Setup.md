@@ -5,6 +5,45 @@ Firebase project ID: **aichatbot-gemini**
 Local project folder: **D:\AIChatbot-Gemini**  
 Guide date: **13 October 2026**
 
+## Table of Contents
+
+- [Purpose and deployment scope](#purpose-and-deployment-scope)
+- [1. Obtain the four Firebase configuration values](#1-obtain-the-four-firebase-configuration-values)
+  - [Step 1: Open General settings](#step-1-open-general-settings)
+  - [Step 2: Register a Web app](#step-2-register-a-web-app)
+  - [Step 3: Read the Firebase config](#step-3-read-the-firebase-config)
+  - [Step 4: Fill `.env.local`](#step-4-fill-envlocal)
+  - [Step 5: Enable Google sign-in](#step-5-enable-google-sign-in)
+  - [Step 6: Set authorized domains](#step-6-set-authorized-domains)
+  - [Step 7: Verify Google sign-in](#step-7-verify-google-sign-in)
+- [2. Install the Firebase CLI](#2-install-the-firebase-cli)
+  - [Step 1: Open the project terminal](#step-1-open-the-project-terminal)
+  - [Step 2: Install the CLI globally](#step-2-install-the-cli-globally)
+  - [Step 3: Verify installation](#step-3-verify-installation)
+- [3. Understand login, init and deploy](#3-understand-login-init-and-deploy)
+- [4. Configure and deploy only the frontend](#4-configure-and-deploy-only-the-frontend)
+  - [Step 1: Sign in to the CLI](#step-1-sign-in-to-the-cli)
+  - [Step 2: Build the React app](#step-2-build-the-react-app)
+  - [Step 3: Initialize standard Hosting](#step-3-initialize-standard-hosting)
+  - [Step 4: Deploy the built frontend](#step-4-deploy-the-built-frontend)
+  - [Step 5: Publish later frontend updates](#step-5-publish-later-frontend-updates)
+- [5. Status at the time this guide was requested](#5-status-at-the-time-this-guide-was-requested)
+- [6. Configure Firebase Authentication for Google sign-in](#6-configure-firebase-authentication-for-google-sign-in)
+  - [Why this setup is required](#why-this-setup-is-required)
+  - [Step 1: Open Authentication](#step-1-open-authentication)
+  - [Step 2: Initialize Authentication](#step-2-initialize-authentication)
+  - [Step 3: Select Google](#step-3-select-google)
+  - [Step 4: Turn on Enable](#step-4-turn-on-enable)
+  - [Step 5: Set the public-facing name and support email](#step-5-set-the-public-facing-name-and-support-email)
+  - [Step 6: Save and confirm the provider](#step-6-save-and-confirm-the-provider)
+  - [Step 7: Test the application](#step-7-test-the-application)
+- [7. Change the app name later](#7-change-the-app-name-later)
+  - [Step 1: Open the correct Google Cloud project](#step-1-open-the-correct-google-cloud-project)
+  - [Step 2: Edit the OAuth app name](#step-2-edit-the-oauth-app-name)
+  - [Step 3: Verify and publish branding when required](#step-3-verify-and-publish-branding-when-required)
+  - [Step 4: Update the website's own name separately](#step-4-update-the-websites-own-name-separately)
+- [Official references](#official-references)
+
 ## Purpose and deployment scope
 
 This guide covers two separate tasks:

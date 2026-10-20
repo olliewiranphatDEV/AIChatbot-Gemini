@@ -14,6 +14,33 @@ Local commands below use **Git Bash on Windows**. Use `npm.cmd` and `firebase.cm
 
 URLs containing `YOUR_RENDER_SERVICE` are placeholders. Replace them with the exact URL Render assigns to the service.
 
+## Table of Contents
+
+- [Section 1: Deploy Backend on Render](#section-1-deploy-backend-on-render)
+  - [1. Verify the local production build](#1-verify-the-local-production-build)
+  - [2. Make the reviewed code available to Render](#2-make-the-reviewed-code-available-to-render)
+  - [3. Create a Render Web Service](#3-create-a-render-web-service)
+  - [4. Set Render environment variables](#4-set-render-environment-variables)
+  - [5. Deploy and inspect the logs](#5-deploy-and-inspect-the-logs)
+  - [6. Verify the deployed health endpoint](#6-verify-the-deployed-health-endpoint)
+  - [7. Verify a real text request](#7-verify-a-real-text-request)
+  - [8. Account for Free-instance behavior](#8-account-for-free-instance-behavior)
+  - [9. Deploy later Backend updates](#9-deploy-later-backend-updates)
+- [Section 2: Deploy Frontend on Firebase Hosting](#section-2-deploy-frontend-on-firebase-hosting)
+  - [1. Verify the Firebase CLI](#1-verify-the-firebase-cli)
+  - [2. Configure the production Backend URL](#2-configure-the-production-backend-url)
+  - [3. Build the production frontend](#3-build-the-production-frontend)
+  - [4. Locate the existing Hosting configuration](#4-locate-the-existing-hosting-configuration)
+  - [5. Initialize standard Hosting if needed](#5-initialize-standard-hosting-if-needed)
+  - [6. Verify the SPA rewrite](#6-verify-the-spa-rewrite)
+  - [7. Publish the frontend](#7-publish-the-frontend)
+  - [8. Verify domains and Backend CORS](#8-verify-domains-and-backend-cors)
+  - [9. Test the published application](#9-test-the-published-application)
+- [Section 3: Re-deploy Frontend onto Firebase Hosting after updates](#section-3-re-deploy-frontend-onto-firebase-hosting-after-updates)
+  - [1. Build the updated frontend](#1-build-the-updated-frontend)
+  - [2. Deploy the new build to Firebase Hosting](#2-deploy-the-new-build-to-firebase-hosting)
+  - [Official references](#official-references)
+
 ## Section 1: Deploy Backend on Render
 
 ### 1. Verify the local production build
