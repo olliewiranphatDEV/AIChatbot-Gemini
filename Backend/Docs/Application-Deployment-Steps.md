@@ -157,11 +157,13 @@ Free services also have monthly compute, bandwidth, and build allowances. Review
 
 1. Verify the change locally.
 2. Push the reviewed revision to the connected branch.
-3. If auto-deploy is enabled, Render deploys matching changes automatically. Otherwise, use the service's **Manual Deploy** action.
+3. If auto-deploy is enabled, Render deploys matching changes automatically according to the configured trigger; you do not need to deploy manually. If auto-deploy is disabled, open the service in **Render Dashboard**, go to **Deploys**, and select **Manual Deploy > Deploy latest commit**.
 4. Confirm build/runtime success and retest `/api/health`.
 5. Retest text and Live behavior when their code or configuration changes.
 
 With Root Directory set to `Backend`, changes confined to Frontend normally do not trigger Backend auto-deployment. Frontend publishing remains a separate action.
+
+Render deploys code from the connected remote repository, so local commits must be pushed to the linked branch first. Check the service's auto-deploy settings to determine whether a manual deploy is needed.
 
 ## Section 2: Deploy Frontend on Firebase Hosting
 
@@ -333,29 +335,41 @@ Firebase Hosting provides HTTPS by default. Use HTTPS when testing microphone ac
 
 If an API call fails, inspect its status/JSON response and Render logs. Do not treat every failure as CORS: startup delay, request validation, access controls, and upstream Gemini errors have different causes.
 
-### 10. Publish later frontend updates
+## Section 3: Re-deploy Frontend onto Firebase Hosting after updates
 
-Build and check the new revision:
+Use these two steps after updating the frontend. The current project has `firebase.json` at the repository root and publishes `Frontend/dist`. The commands in this section use **PowerShell on Windows**.
 
-```bash
-cd /d/AIChatbot-Gemini/Frontend
-npm.cmd run lint
-npm.cmd run build
+### 1. Build the updated frontend
+
+Run each command successfully before continuing:
+
+```powershell
+cd D:\AIChatbot-Gemini
+git switch develop
+npm.cmd --prefix Frontend run build
 ```
 
-After success, deploy from the existing Hosting configuration directory. For repository-root configuration:
+Use `develop` when it contains the changes you intend to publish. The build regenerates `Frontend/dist` using the production environment configuration described in Section 2.
 
-```bash
-cd /d/AIChatbot-Gemini
+### 2. Deploy the new build to Firebase Hosting
+
+After the build succeeds, run from the same repository-root terminal:
+
+```powershell
 firebase.cmd deploy --only hosting --project aichatbot-gemini
 ```
 
-Rebuild whenever production `VITE_*` values change. Recheck the published application after each release.
+Open the Hosting URL printed by the CLI and press **Ctrl+Shift+R** to reload the updated application. Verify the changed UI and relevant application behavior.
+
+There is no need to run `firebase init` again or push Git commits before this manual Hosting deployment: the CLI uploads the locally built files. This command updates only Firebase Hosting; Backend deployment on Render is separate.
+
+Rebuild and deploy again whenever production `VITE_*` values change.
 
 ### Official references
 
 - [Render: Deploy a Node Express App](https://render.com/docs/deploy-node-express-app)
 - [Render: Web Services](https://render.com/docs/web-services)
+- [Render: Deploying and auto-deploy settings](https://render.com/docs/deploys)
 - [Render: Monorepo Support](https://render.com/docs/monorepo-support)
 - [Render: Environment Variables](https://render.com/docs/configure-environment-variables)
 - [Render: Free Web Services and usage limits](https://render.com/docs/free)
