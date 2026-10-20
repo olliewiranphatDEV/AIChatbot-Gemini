@@ -85,7 +85,7 @@ export default function LiveScreen({ state, messages, getLevels, onMute, onUnmut
   }, [captionText, captionsOn])
 
   return (
-    <div data-testid="live-scroll" className="h-dvh min-w-0 flex-1 overflow-y-auto bg-canvas text-ink">
+    <div data-testid="live-scroll" className="h-dvh min-w-0 flex-1 translate-y-0 overflow-y-auto bg-canvas text-ink opacity-100 transition-[opacity,translate] duration-300 ease-out starting:translate-y-3 starting:opacity-0 motion-reduce:transition-none motion-reduce:starting:translate-y-0 motion-reduce:starting:opacity-100">
       <div className="flex min-h-full flex-col pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <header className="grid shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-[0.5rem] border-b border-line bg-header px-[0.5rem] pt-[env(safe-area-inset-top)] sm:px-[1.5rem] lg:px-[2.25rem]">
           <button
