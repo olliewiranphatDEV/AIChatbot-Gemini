@@ -61,7 +61,7 @@ export default function ChatComposer({ isGenerating, dictationEnabled, resetKey,
 
   return (
     <div className="shrink-0 bg-canvas pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:pb-[1.0625rem]">
-      <div className="mx-auto w-full max-w-[72rem] px-[0.75rem] pt-[0.75rem] sm:px-[1.5rem] lg:pt-[1.25rem] lg:pr-[1.9375rem] lg:pl-[1.8125rem]">
+      <div className="w-full px-[24px] pt-[0.75rem] lg:pt-[1.25rem]">
         <DictationPanel state={dictation.state} onStop={dictation.stop} onCancel={dictation.cancel} onRetry={dictation.retry} />
         <form
           onSubmit={handleSubmit}

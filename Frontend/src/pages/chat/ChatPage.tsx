@@ -57,7 +57,16 @@ export default function ChatPage({ session, activePage, onNavigate, theme, onThe
   // The conversation the running voice session writes into, and where its current turn is.
   const voiceChatId = useRef<string | null>(null)
   const voiceCursor = useRef<TranscriptCursor>(emptyCursor)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.matchMedia('(min-width: 1024px) and (orientation: landscape)').matches)
+  const closeSidebarDrawer = () => {
+    if (!window.matchMedia('(min-width: 1024px) and (orientation: landscape)').matches) setSidebarOpen(false)
+  }
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1024px) and (orientation: landscape)')
+    const onLayoutChange = () => setSidebarOpen(desktop.matches)
+    desktop.addEventListener('change', onLayoutChange)
+    return () => desktop.removeEventListener('change', onLayoutChange)
+  }, [])
   const nextId = useRef(0)
   // The request in flight for each conversation. A reply is stored under the
   // conversation that asked for it, never under whichever one is open later.
@@ -143,7 +152,7 @@ export default function ChatPage({ session, activePage, onNavigate, theme, onThe
     // A voice session belongs to one conversation; switching away ends it.
     if (id !== activeId) closeLive()
     setActiveId(id)
-    setSidebarOpen(false)
+    closeSidebarDrawer()
     onNavigate('/chat')
   }
 
@@ -162,7 +171,7 @@ export default function ChatPage({ session, activePage, onNavigate, theme, onThe
       setConversations((current) => [{ id, title: NEW_CHAT_TITLE, group: 'Today' }, ...current])
     }
     setActiveId(id)
-    setSidebarOpen(false)
+    closeSidebarDrawer()
     onNavigate('/chat')
   }
 
@@ -258,7 +267,7 @@ export default function ChatPage({ session, activePage, onNavigate, theme, onThe
   }
 
   const openSettings = () => {
-    setSidebarOpen(false)
+    closeSidebarDrawer()
     onNavigate('/settings')
   }
   // The three-dot menus remain placeholders until their own implementation.
@@ -276,20 +285,20 @@ export default function ChatPage({ session, activePage, onNavigate, theme, onThe
         activeId={activeId}
         user={user}
         open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
         onSelect={selectConversation}
         onNewChat={startNewChat}
         onOpenSettings={openSettings}
         onOpenItemMenu={openItemMenu}
-        variant={isSettings ? 'settings' : 'chat'}
+        isSettings={isSettings}
+        onBackToChat={() => selectConversation(activeId)}
       />
       </div>
-      {sidebarOpen && (
         <div
           aria-hidden="true"
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-30 bg-black/30 desk:hidden"
+          className={`fixed inset-0 z-30 bg-black/30 transition-opacity duration-300 ease-in-out motion-reduce:transition-none desk:hidden ${sidebarOpen && !isLive ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
         />
-      )}
 
       <main className={`${isSettings || isLive ? 'hidden' : 'flex'} min-w-0 flex-1 flex-col`}>
         <ChatHeader
@@ -331,7 +340,7 @@ export default function ChatPage({ session, activePage, onNavigate, theme, onThe
           logoutError={logoutError}
           sidebarOpen={sidebarOpen}
           onOpenSidebar={() => setSidebarOpen(true)}
-          onBackToChat={() => { setSidebarOpen(false); onNavigate('/chat') }}
+          onBackToChat={() => { closeSidebarDrawer(); onNavigate('/chat') }}
         />
       )}
     </div>
