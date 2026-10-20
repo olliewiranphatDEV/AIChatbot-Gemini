@@ -19,6 +19,33 @@ async function openChat(page: Page, slowReply = false) {
 
 const input = (page: Page) => page.getByRole('textbox', { name: 'Message AI Chat' })
 
+for (const width of [390, 1920]) {
+  test(`collapsed sidebar uses the available page width at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1080 })
+    await openChat(page)
+    const close = page.getByRole('button', { name: 'Close sidebar' })
+    if (await close.isVisible()) await close.click()
+    const toggle = page.getByRole('button', { name: 'Open sidebar' })
+    await expect.poll(async () => (await toggle.boundingBox())?.x).toBe(width < 640 ? 5 : 24)
+    const toggleBox = (await toggle.boundingBox())!
+    const title = (await page.getByRole('heading', { name: 'New chat', exact: true }).boundingBox())!
+    const live = (await page.getByRole('button', { name: 'Start Live conversation' }).boundingBox())!
+    const composer = (await page.locator('form').boundingBox())!
+    expect(toggleBox.x).toBe(width < 640 ? 5 : 24)
+    expect(title.x - toggleBox.x - toggleBox.width).toBe(20)
+    expect(width - live.x - live.width).toBe(24)
+    expect(composer.x).toBe(24)
+    expect(width - composer.x - composer.width).toBe(24)
+    const openArrow = await toggle.locator('svg path').last().getAttribute('d')
+    await toggle.click()
+    await expect(close).toBeVisible()
+    expect(await close.locator('svg path').last().getAttribute('d')).not.toBe(openArrow)
+    await close.click()
+    await expect(toggle).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width)
+  })
+}
+
 for (const [width, height] of [[390, 844], [768, 1024], [1440, 900]] as const) {
   for (const theme of ['light', 'dark'] as const) {
     test(`input, Voice and Send have the same height and show no text at ${width}x${height} (${theme})`, async ({ page }) => {

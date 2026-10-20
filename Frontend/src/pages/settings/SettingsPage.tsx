@@ -1,5 +1,5 @@
 import { typography } from '../../styles/typography.ts'
-import { MenuIcon } from '../../components/chat/icons.tsx'
+import SidebarToggle from '../../components/shared/SidebarToggle.tsx'
 import ThemeSelector from '../../components/settings/ThemeSelector.tsx'
 import type { ThemePreference } from '../../components/settings/ThemeSelector.tsx'
 import { GoogleLogo } from '../../components/signin/GoogleSignInButton.tsx'
@@ -23,24 +23,15 @@ type SettingsPageProps = {
 export default function SettingsPage({ user, isGuest = false, theme, onThemeChange, onLogout, loggingOut = false, logoutError, sidebarOpen, onOpenSidebar, onBackToChat }: SettingsPageProps) {
   return (
     <main className="settings-main relative min-w-0 flex-1 overflow-y-auto bg-canvas text-ink">
-      <div className="settings-navigation flex items-center justify-between px-4 pt-4 sm:px-8 desk:absolute desk:top-[1.9375rem] desk:right-8 desk:p-0">
-        <button
-          type="button"
-          onClick={onOpenSidebar}
-          aria-label="Open sidebar"
-          aria-controls="chat-sidebar"
-          aria-expanded={sidebarOpen}
-          className="flex size-11 cursor-pointer items-center justify-center rounded-lg hover:bg-hover focus-visible:outline-2 focus-visible:outline-brand-alt desk:hidden"
-        >
-          <MenuIcon className="size-6" />
-        </button>
-        <button type="button" onClick={onBackToChat} className={`${typography.label} flex min-h-8 cursor-pointer items-center gap-3 rounded text-ink-2 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-alt`}>
+      <div className="settings-navigation flex min-h-[4.25rem] items-center gap-[20px] px-[24px] sm:min-h-[5rem] lg:min-h-[5.75rem]">
+        {!sidebarOpen && <SidebarToggle expanded={false} onToggle={onOpenSidebar} />}
+        <button type="button" onClick={onBackToChat} className={`${typography.label} ml-auto flex min-h-8 cursor-pointer items-center gap-3 rounded text-ink-2 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-alt`}>
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="size-6"><path d="M21 12H3m7-7-7 7 7 7" /></svg>
           Back to chat
         </button>
       </div>
 
-      <div className="settings-content mx-auto w-full max-w-[75.375rem] px-5 pt-6 pb-[max(2.75rem,env(safe-area-inset-bottom))] sm:px-10 sm:pt-8 desk:px-[5.5rem] desk:pt-[5.1875rem] desk:pr-[5.75rem]">
+      <div className="settings-content w-full px-[24px] pt-6 pb-[max(2.75rem,env(safe-area-inset-bottom))] sm:pt-8">
         <h1 className={typography.title}>Settings</h1>
         <p className={`${typography.subtitle} mt-[0.375rem] text-ink-2`}>Make AI Chat feel like your space.</p>
 

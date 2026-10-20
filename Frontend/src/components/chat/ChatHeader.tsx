@@ -1,5 +1,6 @@
+import SidebarToggle from '../shared/SidebarToggle.tsx'
 import { typography } from '../../styles/typography.ts'
-import { LiveWaveIcon, MenuIcon } from './icons.tsx'
+import { LiveWaveIcon } from './icons.tsx'
 
 type ChatHeaderProps = {
   title: string
@@ -19,17 +20,8 @@ export default function ChatHeader({
 }: ChatHeaderProps) {
   return (
     <header className="shrink-0 border-b border-line bg-header">
-      <div className="mx-auto flex h-[4.25rem] w-full max-w-[72rem] items-center gap-[0.5rem] [@media(max-height:500px)]:h-[3.5rem] px-[0.5rem] sm:h-[5rem] sm:px-[1rem] lg:h-[5.75rem] lg:pr-[1.75rem] desk:gap-0 desk:pl-[2.125rem]">
-        <button
-          type="button"
-          onClick={onOpenSidebar}
-          aria-label="Open sidebar"
-          aria-controls="chat-sidebar"
-          aria-expanded={sidebarOpen}
-          className="flex size-[2.75rem] shrink-0 cursor-pointer items-center justify-center rounded-lg text-ink hover:bg-hover focus-visible:outline-2 focus-visible:outline-brand desk:hidden"
-        >
-          <MenuIcon className="size-[1.5rem]" />
-        </button>
+      <div className="flex h-[4.25rem] w-full items-center gap-[20px] pr-[24px] pl-[5px] sm:h-[5rem] sm:pl-[24px] lg:h-[5.75rem]">
+        {!sidebarOpen && <SidebarToggle expanded={false} onToggle={onOpenSidebar} />}
         <h1 className={`${typography.title} min-w-0 flex-1 truncate text-ink lg:pb-[0.25rem]`}>
           {title}
         </h1>
